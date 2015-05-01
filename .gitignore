@@ -1,8 +1,9 @@
-*/obj
-*/*/Bin
+
+/BrewU/bin/*
 *.v11.suo
 *.suo
 *.sap
 720p/*
 WVGA/*
 WXGA/*
+/BrewU/obj/*

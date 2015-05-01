@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace BrewU.Objects
 {
@@ -62,32 +63,31 @@ namespace BrewU.Objects
     public class Beer
     {
         public string Guid { get; set; }
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
         public string Format { get; set; }
         public string BreweryID { get; set; }
         public string Origin { get; set; }
-        public string AlcoholByVolume { get; set; }
+        public double AlcoholByVolume { get; set; }
         public string Description { get; set; }
         public string StyleID { get; set; }
-        public string LargeImage { get; set; }
-        public string MedImage { get; set; }
-        public string AddedOn { get; set; }
-        public int Available { get; set; }
-        public string UpdatedOn { get; set; }
+        public BitmapImage Image { get; set; }
+        public DateTime AddedOn { get; set; }
+        public bool Available { get; set; }
+        public DateTime UpdatedOn { get; set; }
         public string Type { get; set; }
         public string PourSizeID { get; set; }
-        public string IsGlutenFree { get; set; }
-        public string IsCan { get; set; }
+        public bool IsGlutenFree { get; set; }
+        public bool IsCan { get; set; }
         public string StyleName { get; set; }
         public string BreweryName { get; set; }
-        public string HadOn { get; set; }
-        public string InFridge { get; set; }
+        public DateTime HadOn { get; set; }
+        public bool InFridge { get; set; }
         public string PourSize { get; set; }
-        public string LastHadOn { get; set; }
-        public int IsBeerOfTheMonth { get; set; }
-        public int IsFredsPick { get; set; }
+        public DateTime LastHadOn { get; set; }
+        public bool IsBeerOfTheMonth { get; set; }
+        public bool IsFredsPick { get; set; }
 
     }
 
