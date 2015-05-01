@@ -17,27 +17,42 @@ namespace BrewU.Objects
 
         private static string _cookieHeader;
 
-        public static async Task UserLogin(string userName, string password)
+        public static async Task<string> GetCookie(string userName, string password)
         {
-            var response = await post("https://www.tmbrew.com/m/");
+            var result = await Post("https://www.brewniversity.com/server/auth_internal",
+                "{\"username\":\"" + userName + "\",\"password\":\"" + password + "\"}");
 
-            string postData = null;
-            response = await post("https://www.tmbrew.com/m/login", postData);
+            JObject o = JObject.Parse(result);
+            JArray auth = o.GetValue("auth") as JArray;
+
+            int index = int.Parse(auth[0].ToString());
+            string id = auth[1].ToString();
+            string guid = auth[2].ToString();
+            string timeStamp = auth[3].ToString();
+
+            timeStamp = timeStamp.Replace(",", "%2C");
+            timeStamp = timeStamp.Replace(" ", "%20");
+            timeStamp = timeStamp.Replace(":", "%3A");
+
+            string cookie = "auth=";
+            cookie += index + "%7C";
+            cookie += id + "%7C";
+            cookie += guid + "%7C";
+            cookie += timeStamp;
+
+            return cookie;
         }
 
-        private static async Task<string> post(string path)
-        {
-            return await post(path, null);
-        }
-
-        private static async Task<string> post(string path, string postdata)
+        public static async Task<string> Post(string path, string postdata, string cookieHeader = null)
         {
             var request = WebRequest.Create(new Uri(path)) as HttpWebRequest;
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentType = "text/json";
 
-            if (_cookieHeader != null)
-                request.Headers["Cookie"] = _cookieHeader;
+            if (cookieHeader != null)
+            {
+                request.Headers["Cookie"] = cookieHeader;
+            }
 
             if (postdata != null)
             {
@@ -58,7 +73,6 @@ namespace BrewU.Objects
 
             using (var response = (HttpWebResponse)(await Task<WebResponse>.Factory.FromAsync(request.BeginGetResponse, request.EndGetResponse, null)))
             {
-                _cookieHeader = response.Headers["Set-Cookie"];
                 using (var responseStream = response.GetResponseStream())
                 {
                     using (var sr = new StreamReader(responseStream))

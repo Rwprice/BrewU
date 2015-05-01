@@ -72,7 +72,11 @@ namespace BrewU
         /// session. The state will be null the first time a page is visited.</param>
         private async void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            await User.UserLogin("Rwprice01@gmail.com", "ryanp123");
+            var cookie = await User.GetCookie("Rwprice01@gmail.com", "ryanp123");
+
+            var content = await User.Post("https://www.brewniversity.com/server/remote_beers",
+                "{\"isFromGroup\": false,\"hideMyBeers\": false,\"format\": 0,\"user_id\": \"32467\"}",
+                cookie);
         }
 
         /// <summary>
