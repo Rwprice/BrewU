@@ -35,10 +35,10 @@ namespace BrewU.ViewModels
             private set;
         }
 
-        public void LoadPage()
+        public void LoadPage(User user)
         {
             IsLoading = true;
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(resourceLoader.GetString("AuthorizationEndpoint")));
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(resourceLoader.GetString("BeerListsEndpoint")));
             request.BeginGetResponse(new AsyncCallback(ReadCallback), request);
         }
 
