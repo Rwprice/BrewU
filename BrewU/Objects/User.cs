@@ -59,7 +59,7 @@ namespace BrewU.Objects
             }
         }
 
-        public static async Task<string> Post(string path, string postdata)
+        private static async Task<string> Post(string path, string postdata)
         {
             var request = WebRequest.Create(new Uri(path)) as HttpWebRequest;
             request.Method = "POST";

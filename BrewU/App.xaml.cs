@@ -1,5 +1,4 @@
-﻿using BrewU.Common;
-using BrewU.Objects;
+﻿using BrewU.Objects;
 using BrewU.Screens;
 using System;
 using System.Collections.Generic;
@@ -32,6 +31,7 @@ namespace BrewU
         private TransitionCollection transitions;
 
         public static User User { get; set; }
+        public static bool HideMyBeers { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -49,7 +49,7 @@ namespace BrewU
         /// search results, and so forth.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -67,25 +67,8 @@ namespace BrewU
                 // Create a Frame to act as the navigation context and navigate to the first page.
                 rootFrame = new Frame();
 
-                // Associate the frame with a SuspensionManager key.
-                SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
-
                 // TODO: Change this value to a cache size that is appropriate for your application.
                 rootFrame.CacheSize = 1;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // Restore the saved session state only when appropriate.
-                    try
-                    {
-                        await SuspensionManager.RestoreAsync();
-                    }
-                    catch (SuspensionManagerException)
-                    {
-                        // Something went wrong restoring state.
-                        // Assume there is no state and continue.
-                    }
-                }
 
                 // Place the frame in the current Window.
                 Window.Current.Content = rootFrame;
@@ -136,10 +119,9 @@ namespace BrewU
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private async void OnSuspending(object sender, SuspendingEventArgs e)
+        private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            await SuspensionManager.SaveAsync();
             deferral.Complete();
         }
     }

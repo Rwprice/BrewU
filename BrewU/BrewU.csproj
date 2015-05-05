@@ -93,10 +93,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\NavigationHelper.cs" />
-    <Compile Include="Common\ObservableDictionary.cs" />
-    <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="Objects\BrewUObjects.cs" />
     <Compile Include="Objects\User.cs" />
     <Compile Include="Screens\LoginPage.xaml.cs">
@@ -106,7 +102,8 @@
     <Compile Include="Screens\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\BeerOTMViewModel.cs" />
+    <Compile Include="Screens\StringFormatConverter.cs" />
+    <Compile Include="ViewModels\BeerListViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

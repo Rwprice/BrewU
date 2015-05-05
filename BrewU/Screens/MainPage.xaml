@@ -8,28 +8,69 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+    <Page.Resources>
+        <local:StringFormatConverter x:Name="StringFormat"/>
+    </Page.Resources>
 
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.Resources>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+            <DataTemplate x:Name="OTMTemplate">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,12,0,0">
+                    <Image Source="{Binding Image}" Height="136" Width="190"/>
+                    <StackPanel>
+                        <TextBlock Text="Beer!" />
+                    </StackPanel>
+                </StackPanel>
+            </DataTemplate>
 
-        <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="MY APPLICATION" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-            <TextBlock Text="page title" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </Grid.Resources>
+
+        <StackPanel>
+            <TextBlock FontSize="42" Margin="0,10,0,-10" FontFamily="Segoe WP Semibold" Name="Location"/>
+            <TextBlock FontSize="18" Margin="0,10,0,-20" FontFamily="Segoe WP Semibold" Name="Welcome"/>
+            <ToggleSwitch Name="HideBeerButton" Toggled="HideBeerButton_Toggled"
+                          OffContent="Show my Beers" OnContent="Hide my Beers"/>
         </StackPanel>
 
-        <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+        <Hub x:Name="HubControl" HorizontalAlignment="Left" Margin="0,150,0,0" 
+             VerticalAlignment="Stretch" Grid.Row="1">
+            
+            <Hub.Background>
+                <ImageBrush ImageSource="/Assets/backgroundart.jpg"/>
+            </Hub.Background>
 
-        </Grid>
+            <!--Front Page-->
+            <HubSection Header="Beers of the Month"  x:Name="OTMHub">
+                <DataTemplate x:Name="OTMList">
+                    <ListView ItemTemplate="{StaticResource OTMTemplate}"/>
+                </DataTemplate>
+            </HubSection>
+
+            <!--Top Streams-->
+            <HubSection Header="Top Streams">
+                
+            </HubSection>
+
+            <!--Top Games-->
+            <HubSection Header="Top Games">
+                
+            </HubSection>
+
+            <!--Followed Streams-->
+            <HubSection Header="Following">
+                
+            </HubSection>
+
+            <!--Settings-->
+            <HubSection Header="Settings">
+                
+            </HubSection>
+        </Hub>
+        <!--<UI:AdControl Name="FrontPageAd" ApplicationId="db8688fa-d097-4a47-831c-0dbff16cf24b" 
+                      AdUnitId="163143" Height="50" Width="300" VerticalAlignment="Top" 
+                      HorizontalAlignment="Right" IsAutoRefreshEnabled="True" 
+                      Keywords="game, games, twitch, twitchtv"/>-->
     </Grid>
 </Page>

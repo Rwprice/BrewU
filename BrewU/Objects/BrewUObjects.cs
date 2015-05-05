@@ -10,9 +10,6 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace BrewU.Objects
 {
-    /// <summary>
-    /// Request used for authentication
-    /// </summary>
     public class AuthenticationRequest
     {
         public string Username { get; set; }
@@ -24,37 +21,48 @@ namespace BrewU.Objects
         }
     }
 
-    /// <summary>
-    /// Request used for remote_beers
-    /// </summary>
     public class BeerListRequest
     {
         public int Format { get; set; }
-        public GroupType GroupID { get; set; }
+        public int GroupID { get; set; }
         public bool HideMyBeers { get; set; }
         public bool IsFromGroup { get; set; }
         public string UserID { get; set; }
+
+        public override string ToString()
+        {
+            return "{\"isFromGroup\":" + IsFromGroup.ToString().ToLower() + ",\"group_id\":\"" + GroupID +
+                "\",\"hideMyBeers\":" + HideMyBeers.ToString().ToLower() + ",\"format\":" + Format + ",\"user_id\":\"" + UserID + "\"}";
+
+        }
     }
 
-    /// <summary>
-    /// Request used for mget
-    /// </summary>
     public class GetBeerRequest
     {
-        public List<string> BeerIDs { get; set; }
+        public List<string> BeerIDs = new List<string>();
+
+        public override string ToString()
+        {
+            string toReturn = "{\"content\":{\"BrewLib.BeerModel\":[";
+
+            foreach (var beerID in BeerIDs)
+            {
+                var format = string.Format("\"{0}\",", beerID);
+                toReturn += format;
+            }
+
+            toReturn = toReturn.Remove(toReturn.Length - 1);
+            toReturn += "]}}";
+
+            return toReturn;
+        }
     }
 
-    /// <summary>
-    /// Response from mget
-    /// </summary>
     public class GetBeerResponse
     {
         public BeerModel BeerModel { get; set; }
     }
 
-    /// <summary>
-    /// List of Beer Objects
-    /// </summary>
     public class BeerModel
     {
         public List<Beer> BeerObjects { get; set; }
@@ -73,19 +81,19 @@ namespace BrewU.Objects
         public string Description { get; set; }
         public string StyleID { get; set; }
         public BitmapImage Image { get; set; }
-        public DateTime AddedOn { get; set; }
+        public DateTime? AddedOn;
         public bool Available { get; set; }
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn;
         public string Type { get; set; }
         public string PourSizeID { get; set; }
         public bool IsGlutenFree { get; set; }
         public bool IsCan { get; set; }
         public string StyleName { get; set; }
         public string BreweryName { get; set; }
-        public DateTime HadOn { get; set; }
+        public DateTime? HadOn;
         public bool InFridge { get; set; }
         public string PourSize { get; set; }
-        public DateTime LastHadOn { get; set; }
+        public DateTime? LastHadOn;
         public bool IsBeerOfTheMonth { get; set; }
         public bool IsFredsPick { get; set; }
 
