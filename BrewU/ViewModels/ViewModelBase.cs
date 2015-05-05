@@ -5,11 +5,14 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace BrewU.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
+        public ResourceLoader ResourceLoader = ResourceLoader.GetForCurrentView("Resources");
+
         private bool _isLoading = false;
 
         public bool IsLoading

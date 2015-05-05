@@ -1,5 +1,6 @@
 
 /BrewU/bin/*
+*.v12.suo
 *.v11.suo
 *.suo
 *.sap
