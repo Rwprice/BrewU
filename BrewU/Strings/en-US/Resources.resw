@@ -120,4 +120,16 @@
   <data name="AuthorizationEndpoint" xml:space="preserve">
     <value>https://www.brewniversity.com/server/auth_internal</value>
   </data>
+  <data name="BeerEndpoint" xml:space="preserve">
+    <value>https://www.brewniversity.com/server/mget</value>
+  </data>
+  <data name="BeerListsEndpoint" xml:space="preserve">
+    <value>https://www.brewniversity.com/server/remote_beers</value>
+  </data>
+  <data name="CategoryEndpoint" xml:space="preserve">
+    <value>https://www.brewniversity.com/server/list_group</value>
+  </data>
+  <data name="ImageEndpoint" xml:space="preserve">
+    <value>https://www.brewniversity.com/beerimages/{0}_large.jpg</value>
+  </data>
 </root>

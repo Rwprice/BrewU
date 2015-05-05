@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace BrewU.Objects
 {
@@ -14,45 +15,55 @@ namespace BrewU.Objects
     {
         public string DisplayName { get; set; }
         public string UserID { get; set; }
+        public string Cookie { get; set; }
 
-        private static string _cookieHeader;
+        private static ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
-        public static async Task<string> GetCookie(string userName, string password)
+        public static async Task<User> GetCookie(string userName, string password)
         {
-            var result = await Post("https://www.brewniversity.com/server/auth_internal",
+            var result = await Post(resourceLoader.GetString("AuthorizationEndpoint"),
                 "{\"username\":\"" + userName + "\",\"password\":\"" + password + "\"}");
 
             JObject o = JObject.Parse(result);
             JArray auth = o.GetValue("auth") as JArray;
 
-            int index = int.Parse(auth[0].ToString());
-            string id = auth[1].ToString();
-            string guid = auth[2].ToString();
-            string timeStamp = auth[3].ToString();
+            if (auth != null)
+            {
+                var user = new User();
+                JArray content = o.GetValue("content") as JArray;
 
-            timeStamp = timeStamp.Replace(",", "%2C");
-            timeStamp = timeStamp.Replace(" ", "%20");
-            timeStamp = timeStamp.Replace(":", "%3A");
+                user.UserID = content[0]["guid"].ToString();
+                user.DisplayName = content[0]["first_name"].ToString() + " " + content[0]["last_name"].ToString();
 
-            string cookie = "auth=";
-            cookie += index + "%7C";
-            cookie += id + "%7C";
-            cookie += guid + "%7C";
-            cookie += timeStamp;
+                int index = int.Parse(auth[0].ToString());
+                string id = auth[1].ToString();
+                string guid = auth[2].ToString();
+                string timeStamp = auth[3].ToString();
 
-            return cookie;
+                timeStamp = timeStamp.Replace(",", "%2C");
+                timeStamp = timeStamp.Replace(" ", "%20");
+                timeStamp = timeStamp.Replace(":", "%3A");
+
+                user.Cookie = "auth=";
+                user.Cookie += index + "%7C";
+                user.Cookie += id + "%7C";
+                user.Cookie += guid + "%7C";
+                user.Cookie += timeStamp;
+
+                return user;
+            }
+
+            else
+            {
+                return null;
+            }
         }
 
-        public static async Task<string> Post(string path, string postdata, string cookieHeader = null)
+        public static async Task<string> Post(string path, string postdata)
         {
             var request = WebRequest.Create(new Uri(path)) as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "text/json";
-
-            if (cookieHeader != null)
-            {
-                request.Headers["Cookie"] = cookieHeader;
-            }
 
             if (postdata != null)
             {

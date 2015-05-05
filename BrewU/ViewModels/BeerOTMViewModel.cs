@@ -21,8 +21,6 @@ namespace BrewU.ViewModels
 {
     public class BeerOTMViewModel : ViewModelBase
     {
-        ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
-
         public BeerOTMViewModel()
         {
             BeerList = new ObservableCollection<Beer>();
@@ -35,10 +33,10 @@ namespace BrewU.ViewModels
             private set;
         }
 
-        public void LoadPage()
+        public void LoadPage(User user)
         {
             IsLoading = true;
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(resourceLoader.GetString("AuthorizationEndpoint")));
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(ResourceLoader.GetString("BeerListsEndpoint")));
             request.BeginGetResponse(new AsyncCallback(ReadCallback), request);
         }
 

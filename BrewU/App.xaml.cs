@@ -1,4 +1,6 @@
 ﻿using BrewU.Common;
+using BrewU.Objects;
+using BrewU.Screens;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +30,8 @@ namespace BrewU
     public sealed partial class App : Application
     {
         private TransitionCollection transitions;
+
+        public static User User { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -105,7 +109,7 @@ namespace BrewU
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter.
-                if (!rootFrame.Navigate(typeof(PivotPage), e.Arguments))
+                if (!rootFrame.Navigate(typeof(LoginPage), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }
