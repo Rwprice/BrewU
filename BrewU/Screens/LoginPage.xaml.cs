@@ -25,7 +25,12 @@ namespace BrewU.Screens
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
-        { }
+        {
+#if DEBUG
+            Username.Text = "Rwprice01@gmail.com";
+            Password.Password = "ryanp123";
+#endif
+        }
 
         private async void LoginButton_Tapped(object sender, TappedRoutedEventArgs e)
         {

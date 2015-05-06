@@ -22,10 +22,13 @@ namespace BrewU.Screens
     public sealed partial class MainPage : Page
     {
         BeerListViewModel _beersOfTheMonthViewModel;
+        BeerListViewModel _whatsNewViewModel;
 
         public MainPage()
         {
             _beersOfTheMonthViewModel = new BeerListViewModel();
+            _whatsNewViewModel = new BeerListViewModel();
+            
             this.InitializeComponent();
 
             this.Loaded += MainPage_Loaded;
@@ -35,11 +38,42 @@ namespace BrewU.Screens
         {
             Location.Text = "Crabapple";
             Welcome.Text = string.Format("Welcome, {0}", App.User.DisplayName);
-            OTMHub.DataContext = _beersOfTheMonthViewModel;
+            OTMHub.DataContext = _beersOfTheMonthViewModel.BeerList;
+            WhatsNewHub.DataContext = _whatsNewViewModel.BeerList;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ReloadPage();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            
+        }
+
+        private void HideBeerButton_Toggled(object sender, RoutedEventArgs e)
+        {
+            App.HideMyBeers = !App.HideMyBeers;
+
+            if(!App.HideMyBeers)
+            {
+                HideBeerButton.Label = "Show my Beers";
+            }
+
+            else
+            {
+                HideBeerButton.Label = "Hide my Beers";
+            }
+
+            ReloadPage();
+        }
+
+        private void ReloadPage()
+        {
+            _beersOfTheMonthViewModel.ClearList();
+            _whatsNewViewModel.ClearList();
+
             var request = new BeerListRequest
             {
                 Format = 0,
@@ -49,16 +83,14 @@ namespace BrewU.Screens
                 UserID = App.User.UserID
             };
 
-            var beer = new BeerListViewModel();
-            beer.LoadPage(App.User, request);
+            _beersOfTheMonthViewModel.LoadPage(App.User, request);
+
+            request.GroupID = (int)GroupType.WhatsNew;
+
+            _whatsNewViewModel.LoadPage(App.User, request);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            
-        }
-
-        private void HideBeerButton_Toggled(object sender, RoutedEventArgs e)
+        private void LocationButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

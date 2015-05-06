@@ -86,7 +86,9 @@ namespace BrewU.ViewModels
                             beer.StyleID = beerToken["style_id"].ToString();
                             beer.Available = beerToken["avail"].ToString() != "0";
                             beer.Name = beerToken["name"].ToString();
-                            beer.AlcoholByVolume = double.Parse(beerToken["abv"].ToString());
+                            double abv = 0;
+                            double.TryParse(beerToken["abv"].ToString(), out abv);
+                            beer.AlcoholByVolume = abv;
                             beer.BreweryName = beerToken["brewery_name"].ToString();
                             beer.InFridge = beerToken["in_fridge"].ToString() != "0";
                             beer.IsBeerOfTheMonth = beerToken["is_bom"].ToString() != "0";
@@ -101,20 +103,23 @@ namespace BrewU.ViewModels
                             if (DateTime.TryParse(beerToken["had_on"].ToString(), out time))
                                 beer.HadOn = time;
 
-                            beer.Image = new BitmapImage(new Uri(ResourceLoader.GetString(string.Format("ImageEndpoint",
-                                beerToken["large_image"].ToString()))));
+                            beer.Image = new BitmapImage(new Uri(string.Format(ResourceLoader.GetString("ImageEndpoint"),
+                                beerToken["large_image"].ToString())));
 
-                            BeerList.Add(beer);
+                            if(!BeerList.Contains(beer))
+                                BeerList.Add(beer);
                         }
+
+                        IsLoading = false;
                     });
                 }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-            }
 
-            IsLoading = false;
+                IsLoading = false;
+            }
         }
 
         public void ClearList()

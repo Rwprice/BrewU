@@ -9,11 +9,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     
     <Grid>
-        <StackPanel>
-            <TextBox Name="Username" Text="Rwprice01@gmail.com" GotFocus="Username_GotFocus"/>
-            <PasswordBox Name="Password" Password="ryanp123" GotFocus="Password_GotFocus"/>
-            
-            <Button Name="LoginButton" Tapped="LoginButton_Tapped" Content="Login"/>
+        <StackPanel VerticalAlignment="Center">
+            <TextBox Name="Username" GotFocus="Username_GotFocus" HorizontalAlignment="Center"
+                     PlaceholderText="Email Address"/>
+            <PasswordBox Name="Password" GotFocus="Password_GotFocus" HorizontalAlignment="Center" 
+                         PlaceholderText="Password"/>
+            <Button Name="LoginButton" Tapped="LoginButton_Tapped" Content="Login" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Page>

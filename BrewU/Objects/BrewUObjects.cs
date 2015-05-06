@@ -97,6 +97,10 @@ namespace BrewU.Objects
         public bool IsBeerOfTheMonth { get; set; }
         public bool IsFredsPick { get; set; }
 
+        public override int GetHashCode()
+        {
+            return Guid.GetHashCode();
+        }
     }
 
     public enum GroupType : int
